@@ -6,6 +6,7 @@ import { RedisStore } from 'connect-redis';
 import jwt from 'jsonwebtoken';
 import path from 'path';
 import { comparePassword, hashPassword } from './hash/hashing.js';
+import verifyJWT from "./public/js/verifyJWT.js";
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -108,6 +109,16 @@ app.post("/login", async (request, response) => {
 //Carga pagina VENTAS
 app.get('/ventas', async (req, res) => {
 
+    const token = req.session.token;
+
+    const user = verifyJWT(token);
+
+    console.log(user);
+
+    if(user !== 'marce'){
+        return res.status(401).redirect("/auth/logout");
+    }
+
     const ventasPagadas = await getPaidSalesFromTable();
     const data = {array: JSON.stringify(ventasPagadas)};
     res.render('ventas', data);
@@ -116,14 +127,22 @@ app.get('/ventas', async (req, res) => {
 
 app.post('/ventas', async (req, res) => {
 
+    const token = req.session.token;
+
+    const user = verifyJWT(token);
+
+    console.log(user);
+
+    if(user !== 'marce'){
+        return res.status(401).redirect("/auth/logout");
+    }
+
     const checkbox = req.body.selectedOptions;
 
     checkbox.forEach(async checked => {
         await updateTableSales(checked);
     });
 
-    // const ventasPagadas = await getPaidSalesFromTable();
-    // const data = {array: JSON.stringify(ventasPagadas)};
     res.status(302).redirect('/ventas');
 });
 

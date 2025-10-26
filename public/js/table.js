@@ -23,19 +23,19 @@ function generateTable(data) {
         }
 
         if(key == 'address') {
-            th.textContent = 'Dirección';
+            th.textContent = 'Dirección Envío';
         }
 
         if(key == 'comune') {
-            th.textContent = 'Comuna';
+            th.style.display = 'none';
         }
 
         if(key == 'region') {
-            th.textContent = 'Región';
+            th.style.display = 'none';
         }
 
         if(key == 'country') {
-            th.textContent = 'País';
+            th.style.display = 'none';
         }
 
         if(key == 'phone') {
@@ -97,16 +97,20 @@ function generateTable(data) {
                 td.textContent = item[key] || "";
                            
             } else if(key == 'address'){
-                td.textContent = item[key] || "";
-                 
+                if(item['shipping'] === 0) {
+                    td.textContent = 'Retiro en Zokko Showroom';
+                } else {
+                    td.textContent = item['address'] + "\n" + item['comune'] + "\n" + item['region'] + "\n" + item['country'] + "\n"|| "";
+                }
+                
             } else if(key == 'comune'){
-                td.textContent = item[key] || "";
+                td.style.display = 'none';
                  
             } else if(key == 'region'){
-                td.textContent = item[key] || ""; 
+                td.style.display = 'none';
                 
             } else if(key == 'country'){
-                td.textContent = item[key] || ""; 
+                td.style.display = 'none';
                 
             } else if(key == 'phone'){
                 td.textContent = item[key] || ""; 
