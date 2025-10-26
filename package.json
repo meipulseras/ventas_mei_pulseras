@@ -1,0 +1,35 @@
+{
+  "name": "ventas_mei_pulseras",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "ventas de pagina meipulseras",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --watch index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wyneg/ventas_mei_pulseras.git"
+  },
+  "author": "wyneg",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wyneg/ventas_mei_pulseras/issues"
+  },
+  "homepage": "https://github.com/wyneg/ventas_mei_pulseras#readme",
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.2",
+    "bcrypt": "^6.0.0",
+    "connect-redis": "^9.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "path": "^0.12.7",
+    "redis": "^5.9.0",
+    "url": "^0.11.4"
+  }
+}
