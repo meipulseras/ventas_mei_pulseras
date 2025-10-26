@@ -80,7 +80,7 @@ app.post("/login", async (request, response) => {
 
         const password = hashPassword(request.body.pass);
 
-        const user = await getFromTable('password, funcion', 'xwsracoonsalesasdf', 'username', usuario);
+        const user = await getFromTable('username, password, funcion', 'xwsracoonsalesasdf', 'username', usuario);
 
         if(!comparePassword(password, user[0].password) && user[0].funcion !== process.env.MARCE){
             
@@ -113,8 +113,6 @@ app.get('/ventas', async (req, res) => {
 
     const user = verifyJWT(token);
 
-    console.log(user);
-
     if(user !== 'marce'){
         return res.status(401).redirect("/auth/logout");
     }
@@ -130,8 +128,6 @@ app.post('/ventas', async (req, res) => {
     const token = req.session.token;
 
     const user = verifyJWT(token);
-
-    console.log(user);
 
     if(user !== 'marce'){
         return res.status(401).redirect("/auth/logout");
