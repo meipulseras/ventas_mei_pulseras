@@ -1,18 +1,15 @@
 import jwt from 'jsonwebtoken';
 
 function verifyJWT(token) {
+    if (!token) return ''; 
 
-    var data = '';
-
-    jwt.verify(token, process.env.JWT_SECRET, (err, dataToken) => {
-        if (err) {
-            return data;
-        } else {
-            data = dataToken.username;
-        }
-    });
-
-    return data;
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        return decoded.username; 
+    } catch (err) {
+        console.error("Error al verificar JWT:", err.message);
+        return '';
+    }
 }
 
 export default verifyJWT;
