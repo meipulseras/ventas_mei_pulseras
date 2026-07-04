@@ -39,6 +39,7 @@ tr:nth-child(even) td {
 .linkslogout {
     float: right;
     list-style-type: none;
+    margin-left: 10px;
 }
 
 .amor {
