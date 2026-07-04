@@ -100,7 +100,7 @@ app.post("/login", async (request, response) => {
 
         request.session.token = token;
 
-        response.redirect('/ventas');
+        response.redirect('/ordenes');
 
     } catch (error) {
         console.log(error)
