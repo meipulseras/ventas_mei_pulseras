@@ -11,8 +11,10 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 import getFromTable from './queries/select.js';
+import getNotYetPaidSalesFromTable from './queries/selectNotYetPaidSales.js'
 import getPaidSalesFromTable from './queries/selectPaidSales.js';
 import updateTableSales from './queries/update.js';
+import updatePaidSales from './queries/updatePaidSales.js';
 
 const app = express();
 
@@ -122,7 +124,7 @@ app.get('/ventas', async (req, res) => {
     res.render('ventas', data);
 });
 
-
+//Marcar compras para despachar
 app.post('/ventas', async (req, res) => {
 
     const token = req.session.token;
@@ -140,6 +142,42 @@ app.post('/ventas', async (req, res) => {
     });
 
     res.status(302).redirect('/ventas');
+});
+
+//Carga pagina ORDENES
+app.get('/ordenes', async (req, res) => {
+
+    const token = req.session.token;
+
+    const user = verifyJWT(token);
+
+    if(user !== 'marce'){
+        return res.status(401).redirect("/auth/logout");
+    }
+
+    const ventasNoPagadas = await getNotYetPaidSalesFromTable();
+    const data = {array: JSON.stringify(ventasNoPagadas)};
+    res.render('ordenes', data);
+});
+
+//Marcar compras como PAGADAAS
+app.post('/ordenes', async (req, res) => {
+
+    const token = req.session.token;
+
+    const user = verifyJWT(token);
+
+    if(user !== 'marce'){
+        return res.status(401).redirect("/auth/logout");
+    }
+
+    const checkbox = req.body.selectedOptions;
+
+    checkbox.forEach(async checked => {
+        await updatePaidSales(checked);
+    });
+
+    res.status(302).redirect('/ordenes');
 });
 
 //LOG OUT usuario LOGGED
